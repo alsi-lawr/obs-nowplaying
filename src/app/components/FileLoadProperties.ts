@@ -1,0 +1,3 @@
+type FileLoadProperties = {
+  src: string;
+};

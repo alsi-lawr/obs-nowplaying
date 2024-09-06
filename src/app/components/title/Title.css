@@ -1,0 +1,18 @@
+.title {
+  color: #06ab4f;
+  font-size: 300px;
+  width: 100%;
+}
+
+.scroll-text {
+  animation: scrollLeft 20s linear infinite;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(3800px);
+  }
+  100% {
+    transform: translateX(-3800px);
+  }
+}
