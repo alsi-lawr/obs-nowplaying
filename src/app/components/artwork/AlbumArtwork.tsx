@@ -2,31 +2,34 @@
 
 import React, { useState } from "react";
 import "./Artwork.css";
-import useFetchFileData from "../FetchFileData";
+import useFetchFileData from "../fetchfile/FetchFileData";
 
 export default function AlbumArtworkClient({ src: src }: FileLoadProperties) {
   const [fadeClass, setFadeClass] = useState("");
+  const [hasData, setHasData] = useState(false);
+
   const { data: imageContents } = useFetchFileData(
     src,
     (fetchedData, setData) => {
       setFadeClass("fade-out");
       setTimeout(() => {
-        setData(`data:image/jpeg;base64,${fetchedData}`);
         setFadeClass("fade-in");
-      }, 2000);
+        if (!fetchedData || fetchedData.length <= 100) {
+          setHasData(false);
+        } else {
+          setHasData(true);
+          setData(`data:image/jpeg;base64,${fetchedData}`);
+        }
+      }, 1000);
     },
   );
 
   return (
     <div className={`image-container ${fadeClass}`}>
       <img
-        src={
-          imageContents && imageContents.length > 120
-            ? imageContents
-            : vinylBase64
-        }
+        src={hasData ? (imageContents ?? vinylBase64) : vinylBase64}
         alt="Album Artwork"
-        className={imageContents ? "" : "spinning-image"}
+        className={hasData ? "" : "spinning-image"}
       />
     </div>
   );

@@ -41,24 +41,14 @@ a {
   }
 }
 
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  width: 4725px;
-  height: 1080px;
-  border-radius: 200px;
-  background-color: #1e1e1e;
-  opacity: 0.9;
-  overflow: hidden;
-}
-
 .fade-in {
   animation: fadeIn 2000ms ease-in-out;
+  animation-fill-mode: forwards;
 }
 
 .fade-out {
-  animation: fadeOut 2000ms ease-in-out;
+  animation: fadeOut 1000ms ease-in-out;
+  animation-fill-mode: forwards;
 }
 
 @keyframes fadeIn {

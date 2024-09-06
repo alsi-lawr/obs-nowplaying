@@ -12,7 +12,7 @@
 }
 
 .spinning-image {
-  transition: transform 2000ms linear;
+  transition: transform 1000ms linear;
   animation: spin 2000ms linear infinite;
 }
 

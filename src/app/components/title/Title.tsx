@@ -2,17 +2,19 @@
 
 import { useState } from "react";
 import "./Title.css";
-import useFetchFileData from "../FetchFileData";
+import useFetchFileData from "../fetchfile/FetchFileData";
 
-export default function Title({ src: src }: FileLoadProperties) {
+export default function Title({ src, onStateChange }: FileLoadProperties) {
   const [transitionClass, setTransitionClass] = useState("");
   const { data: titleContents } = useFetchFileData(
     src,
     (fetchedData, setData) => {
       setTransitionClass("fade-out");
+      const title = atob(fetchedData ?? "");
+      if (onStateChange) onStateChange(title);
       setTimeout(() => {
-        setData(atob(fetchedData ?? ""));
         setTransitionClass("fade-in");
+        setData(title);
       }, 2000);
     },
   );

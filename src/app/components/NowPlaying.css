@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  width: 4725px;
+  height: 1080px;
+  border-radius: 200px;
+  background-color: #1e1e1e;
+  opacity: 0.9;
+  overflow: hidden;
+  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.no-data {
+  width: 1080px;
+}

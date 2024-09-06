@@ -2,18 +2,23 @@
 
 import { useState } from "react";
 import "./Artist.css";
-import useFetchFileData from "../FetchFileData";
+import useFetchFileData from "../fetchfile/FetchFileData";
 
-export default function Artist({ src: src }: FileLoadProperties) {
+export default function Artist({
+  src: src,
+  onStateChange,
+}: FileLoadProperties) {
   const [transitionClass, setTransitionClass] = useState("");
   const { data: artistContents } = useFetchFileData(
     src,
     (fetchedData, setData) => {
       setTransitionClass("fade-out");
+      const artist = atob(fetchedData ?? "");
+      if (onStateChange) onStateChange(artist);
       setTimeout(() => {
-        setData(atob(fetchedData ?? ""));
         setTransitionClass("fade-in");
-      }, 2000);
+        setData(artist);
+      }, 1000);
     },
   );
   return <div className={`artist ${transitionClass}`}>{artistContents}</div>;
