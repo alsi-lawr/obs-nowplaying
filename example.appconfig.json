@@ -10,7 +10,6 @@
   "trackAgent": {
     "currentlyPlayingAddress": "https://api.spotify.com/v1/me/player/currently-playing",
     "spotifyTrackRefreshIntervalMs": 5000,
-    "rateLimit": false,
     "artworkSize": "large"
   },
   "refresh": {

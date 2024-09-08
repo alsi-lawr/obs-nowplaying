@@ -10,7 +10,6 @@ export type AuthorizationProperties = {
 export type TrackAgentProperties = {
   currentlyPlayingAddress: string;
   spotifyTrackRefreshIntervalMs: number;
-  rateLimit: boolean;
   artworkSize: string | null;
 };
 
