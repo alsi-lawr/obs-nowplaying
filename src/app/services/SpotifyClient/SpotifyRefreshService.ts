@@ -1,6 +1,6 @@
 import { RefreshProperties } from "@/types/SpotifyProperties";
 import { storeToken } from "../SpotifyAuthHook";
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 export class RefreshTokenService {
   private refreshConfig: RefreshProperties;
@@ -79,7 +79,7 @@ export class RefreshTokenService {
     });
   }
 
-  private getRequestHeaders(): any {
+  private getRequestHeaders(): AxiosRequestConfig<URLSearchParams> | undefined {
     return {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

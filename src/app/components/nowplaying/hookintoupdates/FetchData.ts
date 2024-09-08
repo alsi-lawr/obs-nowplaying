@@ -1,5 +1,4 @@
 import { SpotifyDataType } from "@/types/Hook";
-import { redirect } from "next/navigation";
 import { useState, useEffect } from "react";
 
 type UseFetchDataReturn = {

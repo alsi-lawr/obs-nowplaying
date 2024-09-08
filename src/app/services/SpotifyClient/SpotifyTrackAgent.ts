@@ -41,7 +41,6 @@ export class SpotifyTrackAgent {
     let data: SpotifyData | null = null;
     switch (dataType) {
       case SpotifyDataType.Artwork:
-        console.log("Getting album artwork");
         data = {
           id: this.current_track.album_id,
           data:
@@ -49,9 +48,8 @@ export class SpotifyTrackAgent {
               ? null
               : await this.getAlbumArtwork(this.current_track.album_id),
         };
-        break;
+        return data;
       case SpotifyDataType.Artist:
-        console.log("Getting artist name");
         data = {
           id: this.current_track.track_id,
           data:
@@ -59,9 +57,8 @@ export class SpotifyTrackAgent {
               ? null
               : await this.getArtistName(this.current_track.track_id),
         };
-        break;
+        return data;
       case SpotifyDataType.Track:
-        console.log("Getting track name");
         data = {
           id: this.current_track.track_id,
           data:
@@ -69,9 +66,8 @@ export class SpotifyTrackAgent {
               ? null
               : await this.getTrackName(this.current_track.track_id),
         };
-        break;
+        return data;
     }
-    return data;
   }
 
   private async resetCurrentPlaying() {
@@ -89,7 +85,6 @@ export class SpotifyTrackAgent {
 
   private async processTrackUpdate(item: Track): Promise<TrackState> {
     const track = await sqlClient.track.findUnique({ where: { id: item.id } });
-    console.log(`Got: ${item.name}`);
     if (!track) {
       console.log("Creating new track");
       this.resetCurrentPlaying();

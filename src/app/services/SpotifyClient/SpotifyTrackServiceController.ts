@@ -15,6 +15,7 @@ class SpotifyTrackServiceController {
   }
 
   startServiceFromAuthCode(authCode: AuthCode) {
+    if (this.isRunning) return;
     this.isRunning = true;
     this.spotifyTrackListener = SpotifyTrackListener.createWithAuthCode(
       authCode,
@@ -27,6 +28,7 @@ class SpotifyTrackServiceController {
   }
 
   startServiceFromRefreshToken(refreshToken: RefreshToken) {
+    if (this.isRunning) return;
     this.isRunning = true;
     this.spotifyTrackListener = SpotifyTrackListener.createWithRefreshToken(
       refreshToken,
@@ -63,4 +65,16 @@ class SpotifyTrackServiceController {
   }
 }
 
-export const spotifyTrackService = new SpotifyTrackServiceController(config);
+class SingletonWrapper {
+  private static instance: SpotifyTrackServiceController;
+
+  public static getInstance(): SpotifyTrackServiceController {
+    if (!SingletonWrapper.instance) {
+      SingletonWrapper.instance = new SpotifyTrackServiceController(config);
+    }
+
+    return SingletonWrapper.instance;
+  }
+}
+
+export const spotifyTrackService = SingletonWrapper.getInstance();

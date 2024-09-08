@@ -11,7 +11,7 @@ export async function GET(req: Request) {
   let lastResponse: SpotifyData | null = null;
   let continuePolling: boolean = true;
   if (!spotifyTrackService.getIsRunning()) {
-    throw new Error("Not running");
+    return new Response("Not running", { status: 500 });
   }
   const responseStream = new ReadableStream({
     async start(controller) {
@@ -51,6 +51,7 @@ export async function GET(req: Request) {
       pollForUpdates();
 
       req.signal.addEventListener("abort", () => {
+        console.log("Aborted");
         controller.close();
         continuePolling = false;
       });

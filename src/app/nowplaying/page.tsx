@@ -1,7 +1,6 @@
 import React from "react";
 import NowPlaying from "@/app/components/nowplaying/NowPlaying";
 import { spotifyTrackService } from "@/app/services/SpotifyClient/SpotifyTrackServiceController";
-import SpotifyAuth from "@/app/components/spotifyauth/SpotifyAuth";
 import config from "../../../appconfig.json";
 import { getAuthUrl, queryRefreshToken } from "@/app/services/SpotifyAuthHook";
 import { redirect } from "next/navigation";

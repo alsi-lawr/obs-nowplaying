@@ -13,8 +13,8 @@ export async function POST(req: Request) {
     if (!authCode) return NextResponse.json(missingAuthCode);
     spotifyTrackService.startServiceFromAuthCode({ code: authCode });
     return NextResponse.json(OK);
-  } catch (error: any) {
-    return NextResponse.json(Error(error.message));
+  } catch (error: unknown) {
+    return NextResponse.json(Error(error));
   }
 }
 

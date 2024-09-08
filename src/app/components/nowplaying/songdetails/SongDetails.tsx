@@ -24,7 +24,7 @@ export default function SongDetails({ setHasData }: SongDetailsProperties) {
         setHasData(true);
       }
     }, 1000);
-  }, [artistName, songTitle]);
+  }, [artistName, songTitle, setHasData]);
 
   return (
     <div className="song-details">
