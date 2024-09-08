@@ -1,6 +1,5 @@
 import { spotifyTrackService } from "@/app/services/SpotifyClient/SpotifyTrackServiceController";
 import { SpotifyData, SpotifyDataType } from "@/types/Hook";
-import config from "../../../../../appconfig.json";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -40,10 +39,7 @@ export async function GET(req: Request) {
             controller.error(error);
           }
           await new Promise((resolve) =>
-            setTimeout(
-              resolve,
-              config.trackAgent.spotifyTrackRefreshIntervalMs,
-            ),
+            setTimeout(resolve, spotifyTrackService.getTimeoutMs() ?? 1000),
           );
         }
       };

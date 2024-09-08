@@ -1,36 +1,58 @@
-# Stage 1: Build the app
-FROM node:22-alpine AS build
+FROM node:22-alpine AS base
 
-# Set the working directory inside the container
+# Install dependencies only when needed
+FROM base AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+
 WORKDIR /app
 
-# Copy the package.json and package-lock.json (if available)
-COPY package*.json ./
+# Install dependencies based on the preferred package manager
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
-# Install dependencies
-RUN npm install
+FROM base AS build
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 
-# Copy the rest of the application code
 COPY . .
+COPY ./example.appconfig.json ./appconfig.json
 
-# Build the Next.js app
-RUN npm run build
+RUN npx prisma migrate dev --name init && npx prisma generate
+RUN \
+  if [ -f yarn.lock ]; then yarn run build; \
+  elif [ -f package-lock.json ]; then npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
-# Stage 2: Run the app
-FROM build as publish
-
-# Set the working directory inside the container
+FROM build AS publish
 WORKDIR /app
+ENV NODE_ENV=production
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-# Copy the built app from the builder stage
-COPY --from=build /app ./
+# Set the correct permission for prerender cache
+RUN chown nextjs:nodejs .next
 
-# Install only production dependencies
-RUN npm install --only=production
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=build --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=build --chown=nextjs:nodejs /app/appconfig.json ./appconfig.json
+COPY --from=build --chown=nextjs:nodejs /app/prisma ./prisma
 
-# Expose the port Next.js will run on
+
+USER nextjs
+
 EXPOSE 45000
+ENV PORT=45000
 
 # Start the Next.js app
+ENV HOSTNAME="0.0.0.0"
 CMD ["npm", "start"]
 

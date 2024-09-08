@@ -1,8 +1,7 @@
 import React from "react";
 import NowPlaying from "@/app/components/nowplaying/NowPlaying";
 import { spotifyTrackService } from "@/app/services/SpotifyClient/SpotifyTrackServiceController";
-import config from "../../../appconfig.json";
-import { getAuthUrl, queryRefreshToken } from "@/app/services/SpotifyAuthHook";
+import { queryRefreshToken } from "@/app/services/SpotifyAuthHook";
 import { redirect } from "next/navigation";
 
 interface PageProps {
@@ -19,7 +18,7 @@ export default async function Page({ searchParams }: PageProps) {
       spotifyTrackService.startServiceFromRefreshToken({ token: token });
       return <NowPlaying />;
     }
-    const url = getAuthUrl(config.authorization);
+    const url = spotifyTrackService.getAuthUrl();
     redirect(url);
   }
 

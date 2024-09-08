@@ -1,6 +1,5 @@
 import { SpotifyProperties } from "@/types/SpotifyProperties";
 import { SpotifyTrackListener } from "./SpotifyTrackListener";
-import config from "@/../../appconfig.json";
 import { SpotifyData, SpotifyDataType } from "@/types/Hook";
 import { AuthCode } from "@/types/Auth";
 import { RefreshToken } from "@prisma/client";
@@ -63,13 +62,27 @@ class SpotifyTrackServiceController {
   getIsRunning(): boolean {
     return this.isRunning;
   }
+
+  getAuthUrl(): string {
+    return `${this.config.authorization.authorizationAddress}?client_id=${this.config.authorization.spotifyClientId}&response_type=${this.config.authorization.responseType}&redirect_uri=${this.config.authorization.callbackAddress}&scope=${this.config.authorization.scopes}`;
+  }
+
+  getTimeoutMs(): number {
+    return this.config.trackAgent.spotifyTrackRefreshIntervalMs;
+  }
 }
+
+import fs from "fs";
+import path from "path";
 
 class SingletonWrapper {
   private static instance: SpotifyTrackServiceController;
 
   public static getInstance(): SpotifyTrackServiceController {
     if (!SingletonWrapper.instance) {
+      const config = JSON.parse(
+        fs.readFileSync(path.join(process.cwd(), "appconfig.json"), "utf8"),
+      ) as SpotifyProperties;
       SingletonWrapper.instance = new SpotifyTrackServiceController(config);
     }
 
