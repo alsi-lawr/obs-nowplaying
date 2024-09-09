@@ -104,5 +104,5 @@ docker run -d --name obs-nowplaying -p 45000:45000 -v ./appconfig.json:/app/appc
 If you want to persist the local database of artists/tracks/album artworks then run the following:
 
 ```bash
-docker run -d --name obs-nowplaying -p 45000:45000 -v ./appconfig.json:/app/appconfig.json -v prisma:/app/prisma alsi-lawr/obs-nowplaying:1.0.0
+docker run -d --name obs-nowplaying -p 45000:45000 -v ./appconfig.json:/app/appconfig.json -v prisma:/app/prisma alsilawr/obs-nowplaying:1.0.0
 ```
