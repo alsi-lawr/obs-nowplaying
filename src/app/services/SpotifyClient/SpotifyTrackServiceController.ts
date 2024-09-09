@@ -14,7 +14,6 @@ class SpotifyTrackServiceController {
   }
 
   startServiceFromAuthCode(authCode: AuthCode) {
-    if (this.isRunning) return;
     this.isRunning = true;
     this.spotifyTrackListener = SpotifyTrackListener.createWithAuthCode(
       authCode,
@@ -27,7 +26,6 @@ class SpotifyTrackServiceController {
   }
 
   startServiceFromRefreshToken(refreshToken: RefreshToken) {
-    if (this.isRunning) return;
     this.isRunning = true;
     this.spotifyTrackListener = SpotifyTrackListener.createWithRefreshToken(
       refreshToken,

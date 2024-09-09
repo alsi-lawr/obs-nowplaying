@@ -34,20 +34,12 @@ RUN \
 FROM build AS publish
 WORKDIR /app
 ENV NODE_ENV=production
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-# Set the correct permission for prerender cache
-RUN chown nextjs:nodejs .next
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=build --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=build --chown=nextjs:nodejs /app/appconfig.json ./appconfig.json
-COPY --from=build --chown=nextjs:nodejs /app/prisma ./prisma
-
-
-USER nextjs
+COPY --from=build /app/.next/static ./.next/static
+COPY --from=build /app/appconfig.json ./appconfig.json
+COPY --from=build /app/prisma ./prisma
 
 EXPOSE 45000
 ENV PORT=45000

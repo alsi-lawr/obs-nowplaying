@@ -82,6 +82,8 @@ The configuration is managed through the `appconfig.json` file. A sample file `e
 
 ## Running the Application
 
+### Locally
+
 To start the application:
 
 ```bash
@@ -89,3 +91,18 @@ npm start
 ```
 
 The app will be available at `http://localhost:45000`.
+
+### Using Docker
+
+Ensure you have a fully configured appconfig.json file in the directory you run this from.
+To start the application using Docker:
+
+```bash
+docker run -d --name obs-nowplaying -p 45000:45000 -v ./appconfig.json:/app/appconfig.json alsi-lawr/obs-nowplaying:1.0.0
+```
+
+If you want to persist the local database of artists/tracks/album artworks then run the following:
+
+```bash
+docker run -d --name obs-nowplaying -p 45000:45000 -v ./appconfig.json:/app/appconfig.json -v prisma:/app/prisma alsi-lawr/obs-nowplaying:1.0.0
+```
