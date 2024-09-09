@@ -38,3 +38,6 @@ next-env.d.ts
 assets/*.txt
 assets/*.jpg
 assets/*.json
+
+prisma/spotify.db
+appconfig.json

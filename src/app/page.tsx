@@ -1,5 +1,5 @@
-import NowPlaying from "./components/NowPlaying";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  return <NowPlaying />;
+export default function Page() {
+  redirect("/nowplaying");
 }
