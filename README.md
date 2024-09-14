@@ -2,6 +2,8 @@
 
 Spotify Now Playing is a small NextJS/React app designed to display the currently playing song from Spotify, allowing integration with OBS Studio for streaming or recording.
 
+![Example](./docs/example.gif)
+
 ## Prerequisites
 
 - **Node.js** (v14.x or later)
