@@ -14,7 +14,7 @@
 /out/
 
 # production
-/build
+/dist
 
 # misc
 .DS_Store
@@ -39,5 +39,6 @@ assets/*.txt
 assets/*.jpg
 assets/*.json
 
-prisma/spotify.db
+prisma/spotify.db*
+prisma/migrations
 appconfig.json
