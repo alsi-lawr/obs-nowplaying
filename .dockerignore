@@ -1,0 +1,6 @@
+node_modules
+appconfig.json
+.next
+prisma/migrations
+prisma/spotify.db
+prisma/spotify.db-journal
