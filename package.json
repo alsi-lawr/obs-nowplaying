@@ -1,18 +1,20 @@
 {
   "name": "spotify-nowplaying",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev -p 45000",
-    "build": "next build",
-    "start": "next start -p 45000",
+    "clean": "rm -rf node_modules && rm -rf dist && rm -rf prisma/migrations && rm -rf prisma/spotify.db* && rm -rf .next",
+    "init": "npm install && rm -rf dist && rm -rf prisma/migrations && rm -rf prisma/spotify.db* && npx prisma migrate dev --name init && npx prisma generate && mkdir dist",
+    "build": "next build && cp -R .next/standalone/** dist && cp .next/standalone/.next/** dist/.next && cp -R public/** dist/public && cp -R prisma/** dist/prisma",
+    "start": "node dist/server.js",
     "lint": "next lint"
   },
   "dependencies": {
     "@prisma/client": "^5.19.1",
     "axios": "^1.7.7",
     "chokidar": "^3.6.0",
-    "next": "14.2.8",
+    "next": "latest",
     "react": "^18",
     "react-dom": "^18",
     "sqlite3": "^5.1.7"

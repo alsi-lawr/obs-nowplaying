@@ -31,14 +31,15 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-FROM build AS publish
+FROM node:22-alpine AS publish
 WORKDIR /app
 ENV NODE_ENV=production
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=build /app/.next/standalone ./
 COPY --from=build /app/.next/static ./.next/static
-COPY --from=build /app/appconfig.json ./appconfig.json
+COPY --from=build /app/public ./public
 COPY --from=build /app/prisma ./prisma
 
 EXPOSE 45000
@@ -46,5 +47,5 @@ ENV PORT=45000
 
 # Start the Next.js app
 ENV HOSTNAME="0.0.0.0"
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
 
