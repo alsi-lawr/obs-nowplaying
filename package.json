@@ -3,10 +3,11 @@
   "version": "1.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 45000",
+    "dev": "next dev",
     "clean": "rm -rf node_modules && rm -rf dist && rm -rf prisma/migrations && rm -rf prisma/spotify.db* && rm -rf .next",
-    "init": "npm install && rm -rf dist && rm -rf prisma/migrations && rm -rf prisma/spotify.db* && npx prisma migrate dev --name init && npx prisma generate && mkdir dist",
-    "build": "next build && cp -R .next/standalone/** dist && cp .next/standalone/.next/** dist/.next && cp -R public/** dist/public && cp -R prisma/** dist/prisma",
+    "init": "npm install && rm -rf dist && rm -rf prisma/migrations && rm -rf prisma/spotify.db*",
+    "migrate": "npx prisma migrate dev --name init && npx prisma generate && mkdir dist",
+    "build": "next build && cp -R .next/standalone/** dist && cp -R .next/standalone/.next dist && cp -R .next/static dist/.next && cp -R public dist && cp -R prisma dist",
     "start": "node dist/server.js",
     "lint": "next lint"
   },
@@ -23,6 +24,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "cross-env": "^7.0.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.8",
     "prisma": "^5.19.1",
